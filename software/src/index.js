@@ -18,47 +18,73 @@ const main = () => {
     }
   })
 
-  //printStack([{ name: 'start' }])
-  printStack([
-    { id: 'a', name: 'start' },
-    { id: 'b', name: 'repeat', type: 'start', count: 3 },
-    { id: 'c', name: 'run', count: 3 },
-    { id: 'd', name: 'left', count: '45°' },
-    { id: 'e', name: 'run', count: 2 },
-    { id: 'f', name: 'right', count: '90°' },
+  //setProgram([{ name: 'start' }])
+  setProgram([
+    { name: 'start' },
+    { name: 'repeat', type: 'start', count: 3 },
+    { name: 'run', count: 3 },
+    { name: 'left' },
+    { name: 'run', count: 2 },
+    { name: 'right' },
     { name: 'repeat', type: 'end' },
-    { id: 'g', name: 'klaxon' }
+    { name: 'right' },
+    { name: 'klaxon' }
   ])
 }
 
-const printStack = stack =>
-  Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(stackToXml(stack)), app.workspace)
-
-const glowBlock = blockId => app.workspace.glowBlock(blockId, true)
-const unglowBlock = blockId => app.workspace.glowBlock(blockId, false)
-
-const glowAll = () => {
-  const ids = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-  let current = 0
-  setInterval(() => {
-    unglowBlock(ids[(current - 1 + ids.length) % ids.length])
-    glowBlock(ids[current % ids.length])
-    current++
-  }, 200)
+const setProgram = stack => {
+  app.program = stackToProgram(stack)
+  Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(programToXml(app.program)), app.workspace)
 }
 
-const currentId = 0
-
-const stackToXml = stack => {
+const stackToProgram = stack => {
   stack = stack.map(el => ({ ...el }))
 
   stack = parseRepeat(stack)
 
+  // Add ids
+  let i = 0
+  stack.map(el => {
+    el.id = String.fromCharCode(97 + i)
+    i++
+    if (el.substack) {
+      el.substack.map(subEl => {
+        subEl.id = String.fromCharCode(97 + i)
+        i++
+      })
+    }
+  })
+
+  // Add next
+  stack.reduce((previous, el) => {
+    if (!previous) return el
+
+    previous.next = el
+
+    if (el.substack) {
+      el.first = el.substack[0]
+      el.substack.reduce((subPrev, subEl) => {
+        if (!subPrev) return subEl
+
+        subPrev.next = subEl
+
+        return subEl
+      }, null)
+      el.substack[el.substack.length - 1].next = el
+    }
+
+    return el
+  }, null)
+
+  return { instructions: stack }
+}
+
+const programToXml = program => {
   const xml = {
     xml: {
       '@xmlns': 'http://www.w3.org/1999/xhtml',
       variables: {},
-      block: iterateBlocks(null, stack)
+      block: iterateBlocks(null, program.instructions)
     }
   }
 
@@ -88,7 +114,7 @@ const blockToXml = el => {
   }
 
   if (el.name == 'start') {
-    block['@x'] = 100
+    block['@x'] = 130
     block['@y'] = 100
   }
 

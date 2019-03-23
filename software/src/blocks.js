@@ -80,18 +80,13 @@ Blockly.Blocks['repeat'] = {
 Blockly.Blocks['left'] = {
   init: function() {
     this.jsonInit({
-      message0: '%1 %2',
+      message0: '%1',
       args0: [
         {
           type: 'field_image',
           src: Blockly.mainWorkspace.options.pathToMedia + 'left.svg',
           width: 40,
           height: 40
-        },
-        {
-          type: 'input_value',
-          name: 'TIMES',
-          check: 'Number'
         }
       ],
       inputsInline: true,
@@ -106,18 +101,13 @@ Blockly.Blocks['left'] = {
 Blockly.Blocks['right'] = {
   init: function() {
     this.jsonInit({
-      message0: '%1 %2',
+      message0: '%1',
       args0: [
         {
           type: 'field_image',
           src: Blockly.mainWorkspace.options.pathToMedia + 'right.svg',
           width: 40,
           height: 40
-        },
-        {
-          type: 'input_value',
-          name: 'TIMES',
-          check: 'Number'
         }
       ],
       inputsInline: true,
