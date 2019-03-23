@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blocky</title>
+    <script src="lib/xmlbuilder.js"></script>
+    <script src="lib/blockly_compressed_horizontal.js"></script>
+    <script src="lib/blocks_compressed.js"></script>
+    <script src="blocks.js"></script>
+    <script src="index.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => main())
+    </script>
+    <style>
+      html,
+      body,
+      #blocklyDiv {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="blocklyDiv"></div>
+  </body>
+</html>
