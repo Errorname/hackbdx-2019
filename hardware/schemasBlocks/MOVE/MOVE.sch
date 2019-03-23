@@ -1,0 +1,123 @@
+EESchema Schematic File Version 4
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCU_Microchip_ATtiny:ATtiny85-20PU U?
+U 1 1 5C964FEE
+P 4400 3400
+F 0 "U?" H 3870 3446 50  0000 R CNN
+F 1 "ATtiny85-20PU" H 3870 3355 50  0000 R CNN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 4400 3400 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf" H 4400 3400 50  0001 C CNN
+	1    4400 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5C9650D9
+P 4400 2550
+F 0 "#PWR?" H 4400 2400 50  0001 C CNN
+F 1 "+3.3V" H 4415 2723 50  0000 C CNN
+F 2 "" H 4400 2550 50  0001 C CNN
+F 3 "" H 4400 2550 50  0001 C CNN
+	1    4400 2550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 2550 4400 2600
+$Comp
+L power:GND #PWR?
+U 1 1 5C965145
+P 4400 4300
+F 0 "#PWR?" H 4400 4050 50  0001 C CNN
+F 1 "GND" H 4405 4127 50  0000 C CNN
+F 2 "" H 4400 4300 50  0001 C CNN
+F 3 "" H 4400 4300 50  0001 C CNN
+	1    4400 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 4300 4400 4000
+$Comp
+L Device:CP C?
+U 1 1 5C9651AE
+P 3950 2600
+F 0 "C?" V 3695 2600 50  0000 C CNN
+F 1 "220µF" V 3786 2600 50  0000 C CNN
+F 2 "" H 3988 2450 50  0001 C CNN
+F 3 "~" H 3950 2600 50  0001 C CNN
+	1    3950 2600
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5C96529B
+P 3700 2700
+F 0 "#PWR?" H 3700 2450 50  0001 C CNN
+F 1 "GND" H 3705 2527 50  0000 C CNN
+F 2 "" H 3700 2700 50  0001 C CNN
+F 3 "" H 3700 2700 50  0001 C CNN
+	1    3700 2700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3700 2700 3700 2600
+Wire Wire Line
+	3700 2600 3800 2600
+Wire Wire Line
+	4100 2600 4400 2600
+Connection ~ 4400 2600
+Wire Wire Line
+	4400 2600 4400 2800
+$Comp
+L Device:LED D?
+U 1 1 5C965399
+P 6350 2900
+F 0 "D?" H 6342 2645 50  0000 C CNN
+F 1 "LED" H 6342 2736 50  0000 C CNN
+F 2 "" H 6350 2900 50  0001 C CNN
+F 3 "~" H 6350 2900 50  0001 C CNN
+	1    6350 2900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5C965435
+P 5950 2900
+F 0 "R?" V 5743 2900 50  0000 C CNN
+F 1 "330" V 5834 2900 50  0000 C CNN
+F 2 "" V 5880 2900 50  0001 C CNN
+F 3 "~" H 5950 2900 50  0001 C CNN
+	1    5950 2900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6100 2900 6200 2900
+$Comp
+L power:GND #PWR?
+U 1 1 5C965592
+P 6600 3000
+F 0 "#PWR?" H 6600 2750 50  0001 C CNN
+F 1 "GND" H 6605 2827 50  0000 C CNN
+F 2 "" H 6600 3000 50  0001 C CNN
+F 3 "" H 6600 3000 50  0001 C CNN
+	1    6600 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6600 3000 6600 2900
+Wire Wire Line
+	6600 2900 6500 2900
+$EndSCHEMATC
