@@ -43,7 +43,7 @@ exports.setCurrentProgram = functions.https.onRequest((req, res) => {
   admin
     .database()
     .ref('/current_instruction')
-    .set('0')
+    .set(false)
 
   admin
     .database()
