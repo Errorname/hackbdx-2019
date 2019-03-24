@@ -6,7 +6,7 @@ const main = () => {
     disable: false,
     collapse: false,
     media: 'icons/',
-    readOnly: false,
+    readOnly: true,
     rtl: false,
     horizontalLayout: false,
     sounds: false,
@@ -18,8 +18,8 @@ const main = () => {
     }
   })
 
-  //setProgram([{ name: 'start' }])
-  setProgram([
+  setProgram([{ id: 'a', name: 'start' }])
+  /*setProgram([
     { name: 'start' },
     { name: 'repeat', type: 'start', count: 3 },
     { name: 'run', count: 3 },
@@ -27,12 +27,12 @@ const main = () => {
     { name: 'run', count: 2 },
     { name: 'right' },
     { name: 'repeat', type: 'end' },
-    { name: 'right' },
     { name: 'klaxon' }
-  ])
+  ])*/
 }
 
 const setProgram = stack => {
+  app.workspace.clear()
   app.program = stackToProgram(stack)
   Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(programToXml(app.program)), app.workspace)
 }
@@ -41,19 +41,6 @@ const stackToProgram = stack => {
   stack = stack.map(el => ({ ...el }))
 
   stack = parseRepeat(stack)
-
-  // Add ids
-  let i = 0
-  stack.map(el => {
-    el.id = String.fromCharCode(97 + i)
-    i++
-    if (el.substack) {
-      el.substack.map(subEl => {
-        subEl.id = String.fromCharCode(97 + i)
-        i++
-      })
-    }
-  })
 
   // Add next
   stack.reduce((previous, el) => {
@@ -165,3 +152,16 @@ const parseRepeat = stack => {
 
   return stack
 }
+
+const setCurrentInstruction = (app, id) => {
+  console.log(id)
+  if (app.currentInstruction) {
+    glowBlock(app.currentInstruction, false)
+  }
+  app.currentInstruction = id
+  if (app.currentInstruction) {
+    glowBlock(app.currentInstruction)
+  }
+}
+
+const glowBlock = (blockId, toggle = true) => app.workspace.glowBlock(blockId, toggle)

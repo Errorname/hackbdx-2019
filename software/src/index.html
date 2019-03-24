@@ -2,14 +2,35 @@
 <html>
   <head>
     <title>Blocky</title>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
     <script src="lib/xmlbuilder.js"></script>
     <script src="lib/blockly_compressed_horizontal.js"></script>
     <script src="lib/blocks_compressed.js"></script>
     <script src="blocks.js"></script>
     <script src="index.js"></script>
-    <script src="program.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => main())
+      document.addEventListener('DOMContentLoaded', () => {
+        main()
+
+        firebase.initializeApp({
+          apiKey: 'AIzaSyCaUoWscWrLHdrl4oA8U5ZGGvp_1E-e0S8',
+          databaseURL: 'https://hackbordeaux-2019.firebaseio.com',
+          projectId: 'hackbordeaux-2019'
+        })
+
+        firebase
+          .database()
+          .ref('/current_program')
+          .on('value', currentProgram => setProgram(currentProgram.val()))
+
+        firebase
+          .database()
+          .ref('/current_instruction')
+          .on('value', currentInstruction =>
+            setCurrentInstruction(app.program, currentInstruction.val())
+          )
+      })
     </script>
     <style>
       html,
