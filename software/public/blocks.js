@@ -16,7 +16,7 @@ Blockly.Blocks['start'] = {
       inputsInline: true,
       nextStatement: null,
       category: Blockly.Categories.event,
-      colour: Blockly.Colours.event.primary
+      colour: '#696969'
     })
   }
 }
@@ -42,7 +42,7 @@ Blockly.Blocks['run'] = {
       previousStatement: null,
       nextStatement: null,
       category: Blockly.Categories.event,
-      colour: Blockly.Colours.event.primary
+      colour: '#e0e0e0'
     })
   }
 }
@@ -93,7 +93,7 @@ Blockly.Blocks['left'] = {
       previousStatement: null,
       nextStatement: null,
       category: Blockly.Categories.event,
-      colour: Blockly.Colours.event.primary
+      colour: '#5ecef3'
     })
   }
 }
@@ -114,7 +114,7 @@ Blockly.Blocks['right'] = {
       previousStatement: null,
       nextStatement: null,
       category: Blockly.Categories.event,
-      colour: Blockly.Colours.event.primary
+      colour: '#5ecef3'
     })
   }
 }
@@ -135,7 +135,7 @@ Blockly.Blocks['klaxon'] = {
       previousStatement: null,
       nextStatement: null,
       category: Blockly.Categories.event,
-      colour: Blockly.Colours.looks.primary
+      colour: '#ff9b9b'
     })
   }
 }

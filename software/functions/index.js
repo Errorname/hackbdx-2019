@@ -43,7 +43,7 @@ exports.setCurrentProgram = functions.https.onRequest((req, res) => {
   admin
     .database()
     .ref('/current_instruction')
-    .set('a')
+    .set('0')
 
   admin
     .database()
@@ -78,7 +78,7 @@ exports.nextAction = functions.https.onRequest((req, res) => {
           if (next.name === 'repeat') {
             return res.send('wait')
           } else {
-            return res.send(next.name)
+            return res.send(next.name + (next.count ? `-${next.count}` : ''))
           }
         } else {
           admin
@@ -96,7 +96,7 @@ exports.start = functions.https.onRequest((req, res) => {
   admin
     .database()
     .ref('/current_instruction')
-    .set('a')
+    .set('0')
   admin
     .database()
     .ref('/current_loop_count')

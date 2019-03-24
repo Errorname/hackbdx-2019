@@ -10,7 +10,7 @@ const main = () => {
     rtl: false,
     horizontalLayout: false,
     sounds: false,
-    grid: { spacing: 16, length: 1, colour: '#2C344A', snap: false },
+    //grid: { spacing: 16, length: 1, colour: '#2C344A', snap: false },
     zoom: {
       startScale: 2.0,
       controls: false,
@@ -101,8 +101,8 @@ const blockToXml = el => {
   }
 
   if (el.name == 'start') {
-    block['@x'] = 130
-    block['@y'] = 100
+    block['@x'] = 160
+    block['@y'] = 140
   }
 
   if (el.count) {
@@ -161,6 +161,17 @@ const setCurrentInstruction = (app, id) => {
   app.currentInstruction = id
   if (app.currentInstruction) {
     glowBlock(app.currentInstruction)
+  }
+}
+
+const findInstructionById = (program, id) => {
+  for (inst of program.instructions) {
+    if (inst.id === id) return inst
+    if (inst.substack) {
+      for (subinst of inst.substack) {
+        if (subinst.id === id) return subinst
+      }
+    }
   }
 }
 
