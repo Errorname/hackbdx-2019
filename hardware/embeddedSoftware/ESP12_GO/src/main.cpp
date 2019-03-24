@@ -5,9 +5,13 @@
 
 #include "customonewire.h"
 
-#define PIN_EN_NEXT 10 // Pin qui va au reset du prochain bloc
-#define PIN_ONEWIRE 13 // Le bus
-#define FREQ_ONEWIRE 40 // KHz
+
+#define PIN_BUTTON    4
+#define PIN_LED       5
+
+#define PIN_EN_NEXT   10 // Pin qui va au reset du prochain bloc
+#define PIN_ONEWIRE   13 // Le bus
+#define FREQ_ONEWIRE  2 // KHz
 
 customonewire* wire;
 
@@ -26,13 +30,16 @@ const char* pwd       = "pjoubertpj";
 const int httpPort    = 80;
 const char* host      = "http://us-central1-hackbordeaux-2019.cloudfunctions.net";
 
+bool flagStart = false;
+int posBlock = 0;
+
 //create client object
 WiFiClient client;
 
 HTTPClient http;
 
 
-void sendGET(String host) {
+void sendGET(String host, int flag) {
   if (http.begin(client, host)) {  // HTTP
 
 
@@ -49,6 +56,19 @@ void sendGET(String host) {
       if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
         String payload = http.getString();
         Serial.println(payload);
+        if (flag == 1) {
+          if(payload.toInt() != 0)
+            digitalWrite(PIN_LED, LOW);
+          wire->sendByte(payload.toInt());
+          delayMicroseconds(1000);
+          wire->sendByte(0x10);
+
+          delayMicroseconds(1000);
+          wire->sendByte(payload.toInt() - 1);
+          delayMicroseconds(1000);
+          wire->sendByte(0x11);
+          posBlock = payload.toInt();
+        }
       }
     } else {
       Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
@@ -60,10 +80,28 @@ void sendGET(String host) {
   }
 }
 
+void updateAlgo() {
+  String url = (String) host + "/setCurrentProgram?stack=0-start|";
+  for (unsigned int i = 0; i < module_count; i++) {
+    if(modules[i].type > 1) {
+      url += (String)(i + 1) + "-" + (String)wire->type[modules[i].type];
+    } else {
+      url += (String)(i + 1) + "-" + (String)wire->type[modules[i].type] + "-" + (String)modules[i].value;
+    }
+    if (i < module_count - 1)
+      url += "|";
+  }
+  sendGET(url, 0);
+  Serial.println(url);
+}
+
 void setup() {
 
     //set Serial comm
   Serial.begin(9600);
+
+  pinMode(PIN_BUTTON, INPUT);
+  pinMode(PIN_LED, OUTPUT);
 
   pinMode(PIN_EN_NEXT, OUTPUT); // On reset le module suivant
   digitalWrite(PIN_EN_NEXT, LOW);
@@ -169,24 +207,26 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   ESP.wdtFeed();
-  String url = (String) host + "/setCurrentProgram?stack=";
-  for (unsigned int i = 0; i < module_count; i++) {
-    if(modules[i].type > 1) {
-      url += (String)modules[i].addr + "|" + (String)wire->type[modules[i].type];
-      Serial.println(url);
-      sendGET(url);
-    } else {
-      url += (String)modules[i].addr + "|" + (String)wire->type[modules[i].type] + "-" + (String)modules[i].value;
-      Serial.println(url);
-      sendGET(url);
-    }
-  }
 
-  url = (String)host + "/start";
-  sendGET(url);
-
+  updateAlgo();
 }
 
 void loop() {
+  if (!digitalRead(PIN_BUTTON) && flagStart == false) {
+    String url = (String)host + "/start";
+    digitalWrite(PIN_LED, HIGH);
+    sendGET(url, 0);
+    flagStart = true;
+  }
+
+  if(flagStart) {
+    String url = (String)host + "/sync?previous=" + (String)posBlock;
+    sendGET(url, 1);
+    if (posBlock - 1 >= module_count)
+      flagStart = false;
+    delay(100);
+  } else {
+    
+  }
   
 }

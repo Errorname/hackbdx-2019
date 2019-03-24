@@ -7,7 +7,7 @@
 
 #define PIN_EN_NEXT 10 // Pin qui va au reset du prochain bloc
 #define PIN_ONEWIRE 11 // Le bus
-#define FREQ_ONEWIRE 25 // KHz
+#define FREQ_ONEWIRE 2 // KHz
 #define PIN_LED 12 // La led qui s'allume quand le bloc est exécuté
 #define BLOC_TYPE 0x01 // Type de bloc à annoncer au maître
 
@@ -43,6 +43,8 @@ void setup() {
 
   pinMode(PIN_EN_NEXT, OUTPUT); // On reset le module suivant
   digitalWrite(PIN_EN_NEXT, LOW);
+
+  pinMode(PIN_LED, OUTPUT);
 
   wire = new customonewire(PIN_ONEWIRE, FREQ_ONEWIRE);
 
