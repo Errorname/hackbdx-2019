@@ -1,7 +1,7 @@
 {
   "name": "software",
   "dependencies": {
-    "scratch-blocks": "0.1.0-prerelease.1552662801",
+    "scratch-blocks": "0.1.0-prerelease.20221207082607",
     "xmlbuilder": "^11.0.1"
   }
 }
